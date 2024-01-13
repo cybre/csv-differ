@@ -33,13 +33,17 @@ func Diff(file1, file2 File) (Result, error) {
 	additions := make([]string, 0)
 	deletions := make([]string, 0)
 	for _, value := range file1ColumnValues {
-		if !slices.Contains(file2ColumnValues, value) {
+		if !slices.ContainsFunc(file2ColumnValues, func(s string) bool {
+			return strings.ToLower(s) == strings.ToLower(value)
+		}) {
 			deletions = append(deletions, value)
 		}
 	}
 
 	for _, value := range file2ColumnValues {
-		if !slices.Contains(file1ColumnValues, value) {
+		if !slices.ContainsFunc(file1ColumnValues, func(s string) bool {
+			return strings.ToLower(s) == strings.ToLower(value)
+		}) {
 			additions = append(additions, value)
 		}
 	}
@@ -60,7 +64,7 @@ func extractColumnValues(file File) ([]string, error) {
 			break
 		}
 
-		value := strings.TrimFunc(strings.ToLower(row[file.DiffColumnIndex]), func(r rune) bool {
+		value := strings.TrimFunc(row[file.DiffColumnIndex], func(r rune) bool {
 			return r == '"' || r == ' '
 		})
 
