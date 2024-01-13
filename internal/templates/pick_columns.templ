@@ -1,0 +1,19 @@
+package templates
+
+templ PickColumns(file1Columns, file2Columns []string) {
+	<div id="column-picker">
+		<h3>Columns</h3>
+		<select name="file1Column" required>
+			<option value="">Select a column</option>
+			for _, col := range file1Columns {
+				<option value={ col }>{ col }</option>
+			}
+		</select>
+		<select name="file2Column" required>
+			<option value="">Select a column</option>
+			for _, col := range file2Columns {
+				<option value={ col }>{ col }</option>
+			}
+		</select>
+	</div>
+}
