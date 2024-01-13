@@ -60,7 +60,15 @@ func extractColumnValues(file File) ([]string, error) {
 			break
 		}
 
-		values = append(values, strings.ToLower(row[file.DiffColumnIndex]))
+		value := strings.TrimFunc(strings.ToLower(row[file.DiffColumnIndex]), func(r rune) bool {
+			return r == '"' || r == ' '
+		})
+
+		if value == "" {
+			continue
+		}
+
+		values = append(values, value)
 	}
 
 	return values, nil
