@@ -105,8 +105,14 @@ templ Index() {
             </div>
             <script>
                 const reset = function(evt) {
-                    htmx.find('#column-picker').remove()
-                    htmx.find('#diff-table').remove()
+                    const columnPicker = htmx.find('#column-picker');
+                    if (columnPicker) {
+                        columnPicker.remove();
+                    }
+                    const diffTable = htmx.find('#diff-table');
+                    if (diffTable) {
+                        diffTable.remove();
+                    }
                 };
 
                 htmx.on('#file1Delimiter', 'change', reset);
